@@ -44,7 +44,14 @@ describe("filterCours", () => {
   it("renvoie tous les cours sans filtre", () => {
     expect(filterCours(COURS, {})).toHaveLength(4);
   });
+  it("renvoie une liste vide quand il n'y a aucun cours", () => {
+    expect(filterCours([], { query: "docker", level: "avance" })).toEqual([]);
+  });
 
+  it("combine la recherche et le niveau", () => {
+    const resultat = filterCours(COURS, { query: "git", level: "debutant" });
+    expect(resultat.map((c) => c.documentId)).toEqual(["d"]);
+  });
   it("filtre par niveau", () => {
     const resultat = filterCours(COURS, { level: "debutant" });
     expect(resultat.map((c) => c.documentId)).toEqual(["b", "d"]);
